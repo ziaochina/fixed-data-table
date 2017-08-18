@@ -768,7 +768,7 @@ var FixedDataTable = React.createClass({
       firstRowIndex = scrollState.index;
       firstRowOffset = scrollState.offset;
       scrollY = scrollState.position;
-      delete this._rowToScrollTo;
+      //delete this._rowToScrollTo; //zlj 注释这行，这个属性下面还要用，后面再去掉这个属性
     }
 
     var groupHeaderHeight = useGroupHeader ? props.groupHeaderHeight : 0;
@@ -787,6 +787,16 @@ var FixedDataTable = React.createClass({
         viewportHeight,
         props.rowHeightGetter
       );
+
+      //zlj 增加，解决表格有滚动栏情况下，焦点在最后一行，这是缩小界面，滚动栏直接回到顶部了
+      if (this._rowToScrollTo !== undefined) {
+        scrollState = this._scrollHelper.scrollRowIntoView(this._rowToScrollTo);
+        firstRowIndex = scrollState.index;
+        firstRowOffset = scrollState.offset;
+        scrollY = scrollState.position;
+      }
+      //end zlj
+
       var scrollState =
         this._scrollHelper.scrollToRow(firstRowIndex, firstRowOffset);
       firstRowIndex = scrollState.index;
@@ -795,6 +805,12 @@ var FixedDataTable = React.createClass({
     } else if (oldState && props.rowHeightGetter !== oldState.rowHeightGetter) {
       this._scrollHelper.setRowHeightGetter(props.rowHeightGetter);
     }
+
+    //zlj 增加，本来在顶上要去除的，因为要用，用完再删除
+    if (this._rowToScrollTo !== undefined) {
+      delete this._rowToScrollTo; 
+    }
+    //end zlj
 
     var columnResizingData;
     if (props.isColumnResizing) {

@@ -1,5 +1,5 @@
 {
-  "name": "fixed-data-table",
+  "name": "mk-data-table",
   "version": "0.6.3",
   "description": "A React table component designed to allow presenting thousands of rows of data.",
   "main": "main.js",
