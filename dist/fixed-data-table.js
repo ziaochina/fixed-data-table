@@ -63,7 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
 	__webpack_require__(5);
@@ -79,88 +79,88 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = __webpack_require__(25);
 
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 2 */,
 /* 3 */,
 /* 4 */,
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 6 */,
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 8 */,
 /* 9 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 10 */,
 /* 11 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 12 */,
 /* 13 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 14 */,
 /* 15 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 16 */,
 /* 17 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 18 */,
 /* 19 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 20 */,
 /* 21 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 22 */,
 /* 23 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 24 */,
 /* 25 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -190,9 +190,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	FixedDataTableRoot.version = '0.6.3';
 	module.exports = FixedDataTableRoot;
 
-/***/ },
+/***/ }),
 /* 26 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -714,9 +714,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = TransitionTable;
 
-/***/ },
+/***/ }),
 /* 27 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -733,15 +733,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = __webpack_require__(28);
 
-/***/ },
+/***/ }),
 /* 28 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_28__;
 
-/***/ },
+/***/ }),
 /* 29 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -1427,7 +1427,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      firstRowIndex = scrollState.index;
 	      firstRowOffset = scrollState.offset;
 	      scrollY = scrollState.position;
-	      delete this._rowToScrollTo;
+	      //delete this._rowToScrollTo; //zlj 注释这行，这个属性下面还要用，后面再去掉这个属性
 	    }
 
 	    var groupHeaderHeight = useGroupHeader ? props.groupHeaderHeight : 0;
@@ -1437,6 +1437,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // change
 	      var viewportHeight = (props.height === undefined ? props.maxHeight : props.height) - (props.headerHeight || 0) - (props.footerHeight || 0) - (props.groupHeaderHeight || 0);
 	      this._scrollHelper = new FixedDataTableScrollHelper(props.rowsCount, props.rowHeight, viewportHeight, props.rowHeightGetter);
+
+	      //zlj 增加，解决表格有滚动栏情况下，焦点在最后一行，这是缩小界面，滚动栏直接回到顶部了
+	      if (this._rowToScrollTo !== undefined) {
+	        scrollState = this._scrollHelper.scrollRowIntoView(this._rowToScrollTo);
+	        firstRowIndex = scrollState.index;
+	        firstRowOffset = scrollState.offset;
+	        scrollY = scrollState.position;
+	      }
+	      //end zlj
+
 	      var scrollState = this._scrollHelper.scrollToRow(firstRowIndex, firstRowOffset);
 	      firstRowIndex = scrollState.index;
 	      firstRowOffset = scrollState.offset;
@@ -1444,6 +1454,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else if (oldState && props.rowHeightGetter !== oldState.rowHeightGetter) {
 	      this._scrollHelper.setRowHeightGetter(props.rowHeightGetter);
 	    }
+
+	    //zlj 增加，本来在顶上要去除的，因为要用，用完再删除
+	    if (this._rowToScrollTo !== undefined) {
+	      delete this._rowToScrollTo;
+	    }
+	    //end zlj
 
 	    var columnResizingData;
 	    if (props.isColumnResizing) {
@@ -1712,9 +1728,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	// isColumnResizing should be overwritten by value from props if
 	// avaialble
 
-/***/ },
+/***/ }),
 /* 30 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -1788,9 +1804,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = ReactComponentWithPureRenderMixin;
 
-/***/ },
+/***/ }),
 /* 31 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -1898,9 +1914,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = ReactWheelHandler;
 
-/***/ },
+/***/ }),
 /* 32 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -1941,9 +1957,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = emptyFunction;
 
-/***/ },
+/***/ }),
 /* 33 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -2142,9 +2158,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = normalizeWheel;
 
-/***/ },
+/***/ }),
 /* 34 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2004-present Facebook. All Rights Reserved.
@@ -2425,9 +2441,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = UserAgent_DEPRECATED;
 
-/***/ },
+/***/ }),
 /* 35 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-2015, Facebook, Inc.
@@ -2490,9 +2506,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = isEventSupported;
 
-/***/ },
+/***/ }),
 /* 36 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -2533,9 +2549,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = ExecutionEnvironment;
 
-/***/ },
+/***/ }),
 /* 37 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -2574,9 +2590,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = requestAnimationFrame;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 38 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -2596,9 +2612,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = nativeRequestAnimationFrame;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 39 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3048,9 +3064,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Scrollbar;
 
-/***/ },
+/***/ }),
 /* 40 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3212,9 +3228,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = DOMMouseMoveTracker;
 
-/***/ },
+/***/ }),
 /* 41 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3294,9 +3310,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = EventListener;
 
-/***/ },
+/***/ }),
 /* 42 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3320,9 +3336,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = cancelAnimationFrame;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 43 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3362,9 +3378,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  NUMPAD_9: 105
 	};
 
-/***/ },
+/***/ }),
 /* 44 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3381,15 +3397,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = __webpack_require__(45);
 
-/***/ },
+/***/ }),
 /* 45 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_45__;
 
-/***/ },
+/***/ }),
 /* 46 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3432,9 +3448,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = cssVar;
 
-/***/ },
+/***/ }),
 /* 47 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3491,9 +3507,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = cx;
 
-/***/ },
+/***/ }),
 /* 48 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3545,9 +3561,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = translateDOMPositionXY;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 49 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3596,9 +3612,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = BrowserSupportCore;
 
-/***/ },
+/***/ }),
 /* 50 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3653,9 +3669,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = getVendorPrefixedName;
 
-/***/ },
+/***/ }),
 /* 51 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3690,9 +3706,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = camelize;
 
-/***/ },
+/***/ }),
 /* 52 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3744,9 +3760,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = invariant;
 
-/***/ },
+/***/ }),
 /* 53 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -3904,9 +3920,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableBufferedRows;
 
-/***/ },
+/***/ }),
 /* 54 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -4032,9 +4048,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableRowBuffer;
 
-/***/ },
+/***/ }),
 /* 55 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -4217,9 +4233,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = IntegerBufferSet;
 
-/***/ },
+/***/ }),
 /* 56 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -4401,9 +4417,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Heap;
 
-/***/ },
+/***/ }),
 /* 57 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -4438,9 +4454,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = clamp;
 
-/***/ },
+/***/ }),
 /* 58 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -4692,9 +4708,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableRow;
 
-/***/ },
+/***/ }),
 /* 59 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -4904,9 +4920,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableCellGroup;
 
-/***/ },
+/***/ }),
 /* 60 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5013,9 +5029,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableHelper;
 
-/***/ },
+/***/ }),
 /* 61 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5042,9 +5058,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Locale;
 
-/***/ },
+/***/ }),
 /* 62 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5086,9 +5102,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = TransitionColumnGroup;
 
-/***/ },
+/***/ }),
 /* 63 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5130,9 +5146,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = TransitionColumn;
 
-/***/ },
+/***/ }),
 /* 64 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5305,9 +5321,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableCell;
 
-/***/ },
+/***/ }),
 /* 65 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5424,9 +5440,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = FixedDataTableCellDefault;
 	// Unused but should not be passed through
 
-/***/ },
+/***/ }),
 /* 66 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-2015, Facebook, Inc.
@@ -5468,9 +5484,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = joinClasses;
 
-/***/ },
+/***/ }),
 /* 67 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5633,9 +5649,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableColumnResizeHandle;
 
-/***/ },
+/***/ }),
 /* 68 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -5938,9 +5954,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableScrollHelper;
 
-/***/ },
+/***/ }),
 /* 69 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6202,9 +6218,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 70 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6340,9 +6356,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableWidthHelper;
 
-/***/ },
+/***/ }),
 /* 71 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6412,9 +6428,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = debounce;
 
-/***/ },
+/***/ }),
 /* 72 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6467,9 +6483,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = shallowEqual;
 
-/***/ },
+/***/ }),
 /* 73 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6651,9 +6667,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableColumn;
 
-/***/ },
+/***/ }),
 /* 74 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6733,9 +6749,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = FixedDataTableColumnGroup;
 
-/***/ },
+/***/ }),
 /* 75 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2015, Facebook, Inc.
@@ -6932,7 +6948,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = TransitionCell;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
