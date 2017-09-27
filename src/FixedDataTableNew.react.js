@@ -31,7 +31,7 @@ var joinClasses = require('joinClasses');
 var shallowEqual = require('shallowEqual');
 var translateDOMPositionXY = require('translateDOMPositionXY');
 
-var {PropTypes} = React;
+var PropTypes = require('prop-types');
 var ReactChildren = React.Children;
 
 var EMPTY_OBJECT = {};
@@ -39,7 +39,7 @@ var BORDER_HEIGHT = 1;
 var HEADER = 'header';
 var FOOTER = 'footer';
 var CELL = 'cell';
-
+var createReactClass = require('create-react-class');
 /**
  * Data grid component with fixed or scrollable header and columns.
  *
@@ -86,7 +86,7 @@ var CELL = 'cell';
  * - Scrollable Body Columns: The body columns that move while scrolling
  *   vertically or horizontally.
  */
-var FixedDataTable = React.createClass({
+var FixedDataTable = createReactClass({
 
   propTypes: {
 
@@ -1063,8 +1063,8 @@ var FixedDataTable = React.createClass({
     }
   },
 });
-
-var HorizontalScrollbar = React.createClass({
+var createReactClass = require('create-react-class');
+var HorizontalScrollbar =createReactClass({
   mixins: [ReactComponentWithPureRenderMixin],
   propTypes: {
     contentSize: PropTypes.number.isRequired,

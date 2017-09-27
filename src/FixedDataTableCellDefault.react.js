@@ -15,8 +15,8 @@ var React = require('React');
 var cx = require('cx');
 var joinClasses = require('joinClasses');
 
-var {PropTypes} = React;
-
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 /**
  * Component that handles default cell layout and styling.
  *
@@ -40,7 +40,7 @@ var {PropTypes} = React;
  * );
  * ```
  */
-var FixedDataTableCellDefault = React.createClass({
+var FixedDataTableCellDefault = createReactClass({
   propTypes: {
 
     /**

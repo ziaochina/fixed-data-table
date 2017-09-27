@@ -12,12 +12,12 @@
 
 var React = require('React');
 
-var {PropTypes} = React;
-
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 /**
  * Component that defines the attributes of table column.
  */
-var FixedDataTableColumn = React.createClass({
+var FixedDataTableColumn = createReactClass({
   statics: {
     __TableColumn__: true
   },

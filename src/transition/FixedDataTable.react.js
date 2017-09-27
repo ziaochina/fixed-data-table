@@ -23,7 +23,7 @@ var React = require('React');
 
 var ReactChildren = React.Children;
 
-var {PropTypes} = React;
+var PropTypes = require('prop-types');
 
 // New Table API
 var Table = require('FixedDataTableNew.react');
@@ -55,7 +55,7 @@ function notifyDeprecated(prop, reason) {
     }
   }
 }
-
+var createReactClass = require('create-react-class');
 /**
  * Data grid component with fixed or scrollable header and columns.
  *
@@ -105,7 +105,7 @@ function notifyDeprecated(prop, reason) {
  * - Scrollable Body Columns: The body columns that move while scrolling
  *   vertically or horizontally.
  */
-var TransitionTable = React.createClass({
+var TransitionTable =createReactClass({
   propTypes: {
     /**
      * Pixel width of table. If all columns do not fit,

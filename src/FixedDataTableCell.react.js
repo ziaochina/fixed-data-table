@@ -18,14 +18,16 @@ var joinClasses = require('joinClasses');
 
 var DIR_SIGN = FixedDataTableHelper.DIR_SIGN;
 
-var {PropTypes} = React;
+var PropTypes = require('prop-types');
 
 var DEFAULT_PROPS = {
   align: 'left',
   highlighted: false,
 };
 
-var FixedDataTableCell = React.createClass({
+var createReactClass = require('create-react-class');
+
+var FixedDataTableCell = createReactClass({
 
   /**
    * PropTypes are disabled in this component, because having them on slows

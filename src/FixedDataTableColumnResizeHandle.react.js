@@ -22,9 +22,9 @@ var ReactComponentWithPureRenderMixin = require('ReactComponentWithPureRenderMix
 var clamp = require('clamp');
 var cx = require('cx');
 
-var {PropTypes} = React;
-
-var FixedDataTableColumnResizeHandle = React.createClass({
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
+var FixedDataTableColumnResizeHandle = createReactClass({
   mixins: [ReactComponentWithPureRenderMixin],
 
   propTypes: {

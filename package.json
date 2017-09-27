@@ -1,6 +1,6 @@
 {
   "name": "mk-data-table",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "A React table component designed to allow presenting thousands of rows of data.",
   "main": "main.js",
   "peerDependencies": {
@@ -62,5 +62,9 @@
     "table",
     "data-table",
     "fixed-table"
-  ]
+  ],
+  "dependencies": {
+    "create-react-class": "^15.6.2",
+    "prop-types": "^15.6.0"
+  }
 }

@@ -19,14 +19,14 @@ var cx = require('cx');
 var joinClasses = require('joinClasses');
 var translateDOMPositionXY = require('translateDOMPositionXY');
 
-var {PropTypes} = React;
-
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 /**
  * Component that renders the row for <FixedDataTable />.
  * This component should not be used directly by developer. Instead,
  * only <FixedDataTable /> should use the component internally.
  */
-var FixedDataTableRowImpl = React.createClass({
+var FixedDataTableRowImpl =createReactClass({
 
   propTypes: {
 
@@ -192,8 +192,8 @@ var FixedDataTableRowImpl = React.createClass({
     this.props.onMouseLeave(event, this.props.index);
   },
 });
-
-var FixedDataTableRow = React.createClass({
+var createReactClass = require('create-react-class');
+var FixedDataTableRow = createReactClass({
 
   propTypes: {
 

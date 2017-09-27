@@ -22,7 +22,7 @@ var cx = require('cx');
 var emptyFunction = require('emptyFunction');
 var translateDOMPositionXY = require('translateDOMPositionXY');
 
-var {PropTypes} = React;
+var PropTypes = require('prop-types');
 
 var UNSCROLLABLE_STATE = {
   position: 0,
@@ -35,8 +35,8 @@ var FACE_SIZE_MIN = 30;
 var KEYBOARD_SCROLL_AMOUNT = 40;
 
 var _lastScrolledScrollbar = null;
-
-var Scrollbar = React.createClass({
+var createReactClass = require('create-react-class');
+var Scrollbar =createReactClass({
   mixins: [ReactComponentWithPureRenderMixin],
 
   propTypes: {
